@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from "@/components/navbar";
 import {
     Card,
@@ -44,6 +44,7 @@ const Page = () => {
         console.log(result)
         if (result.success === true) {
             setYTdata(result.data)
+            localStorage.setItem('dat', JSON.stringify(result.data))
             setApiGoing(false)
         } else {
             toast({

@@ -7,7 +7,6 @@ import assemblyai as aai
 
 aai.settings.api_key = "9807cc31f3b446ff96b656fbc55145dd"
 
-
 def generate_random_filename(length=10):
     """Generate a random filename."""
     characters = string.ascii_letters + string.digits

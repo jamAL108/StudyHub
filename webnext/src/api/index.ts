@@ -16,8 +16,8 @@ export const GetVideoIntoText = async (videoID: string) => {
     try {
         const response = await fetch(`http://127.0.0.1:5000/startchatwithvideo?videoid=${videoID}`)
         const data = await response.json()
-        console.log(data)
-        return { success: true }
+        console.log(data.text)
+        return { success: true , text:data.text }
     } catch (error) {
         console.error('Error:', error)
         return { success: false, error: "Issue in server !" }

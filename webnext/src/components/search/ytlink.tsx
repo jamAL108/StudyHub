@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ShrinkTitle, FormatVideoViews, YoutubeExtractVideoID } from '@/utils'
-import { GetVideoIntoText } from '@/api'
+import Link from 'next/link'
 const YtLink: React.FC<any> = (props) => {
     const { item } = props;
 
@@ -30,17 +30,19 @@ const YtLink: React.FC<any> = (props) => {
                 <DropdownMenu>
                     <DropdownMenuTrigger><EllipsisVertical color='white' size={20} /></DropdownMenuTrigger>
                     <DropdownMenuContent className='absolute right-[-10px] px-3 py-3 w-[200px]'>
-                        <DropdownMenuItem onClick={(e) => {
-                            const id: string = YoutubeExtractVideoID(item.url_suffix)
-                            console.log(id)
-                            GetVideoIntoText(item.url_suffix)
-                        }} className='flex items-center py-2 mb-1 px-3 gap-3 text-white'><BotMessageSquare size={22} /> Chat with AI</DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href={`/chat-with-ai/${YoutubeExtractVideoID(item.url_suffix)}`} onClick={(e) => {
+                                localStorage.removeItem('studyHubData')
+                                localStorage.setItem('VideoMeta', JSON.stringify(item))
+                            }} className='flex items-center py-2 mb-1 px-3 gap-3 text-white'><BotMessageSquare size={22} /> Chat with AI
+                            </Link>
+                        </DropdownMenuItem>
                         <DropdownMenuItem className='flex items-center py-2  mb-1 px-3 gap-3 text-white'><SquareArrowOutUpRight size={22} /> View Video </DropdownMenuItem>
                         <DropdownMenuItem className='flex items-center py-2 mb-1 px-3 gap-3 text-white'><Forward size={22} /> Share others</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-        </div>
+        </div >
     )
 }
 
