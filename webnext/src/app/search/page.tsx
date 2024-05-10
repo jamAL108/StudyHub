@@ -69,8 +69,8 @@ const Page = () => {
                     <CardContent className='flex justify-between mt-5'>
                         <Tabs defaultValue="account" className="w-[max(35%,400px)] ">
                             <TabsList className="grid w-[70%] grid-cols-2">
-                                <TabsTrigger value="account">Account</TabsTrigger>
-                                <TabsTrigger value="password">Password</TabsTrigger>
+                                <TabsTrigger value="account">Explore</TabsTrigger>
+                                <TabsTrigger value="password">Quick Link</TabsTrigger>
                             </TabsList>
                             <TabsContent value="account" className='border-none'>
                                 <Card className='border-none'>

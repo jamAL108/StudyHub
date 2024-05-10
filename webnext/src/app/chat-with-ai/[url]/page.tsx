@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation'
 import { GetVideoIntoText } from '@/api'
 import { AlertForNoDataFound , ChatNavbar , DisplayChat , ChatBotComponent } from '@/components/chat-with-ai'
 import { useToast } from "@/components/ui/use-toast"
-
 const Page = () => {
     const { toast } = useToast()
     const [extractedText, setExtractedText] = useState<string>('')

@@ -1,4 +1,4 @@
-export function youtubeExtractstring(url:string) {
+export function youtubeExtractstring(url: string) {
     const match = url.match(/(?<=\bv=)[\w-]+/);
     return match ? match[0] : '';
 }
@@ -21,3 +21,19 @@ export function formatViews(viewsString: string) {
     const shortValue = (viewsNumber / Math.pow(10, suffixNum * 3)).toPrecision(3);
     return shortValue + suffixes[suffixNum] + " views";
 }
+
+
+export const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
+export const extractEmailPrefix = (email: string): string => {
+    const atIndex = email.indexOf('@');
+    if (atIndex !== -1) {
+        return email.substring(0, atIndex);
+    } else {
+        // If the email doesn't contain '@', return the entire email
+        return email;
+    }
+};

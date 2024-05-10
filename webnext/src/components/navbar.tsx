@@ -1,14 +1,17 @@
+'use client'
 import React from 'react'
 import Image from 'next/image'
 import { Button } from './ui/button'
-import { Star } from 'lucide-react';
+import { Router, Star } from 'lucide-react';
 import { Badge } from "@/components/ui/badge"
+import { useRouter } from 'next/navigation';
 const Navbar = () => {
+    const router = useRouter()
     return (
         <div className='w-full flex justify-center'>
-            <div className='w-[min(90vw,1400px)] py-1  px-[10px] flex justify-between items-center'>
-                <Image src='/images/LOGO2.png' alt='qwerty' width={180} height={40} className='select-none' />
-                <div className='flex justify-center items-center gap-10 font-[450]'>
+            <div className='w-[min(90vw,1400px)] py-2 flex justify-between items-center'>
+                <Image src='/images/vidchat.png' alt='qwerty' width={160} height={32} className='select-none' />
+                <div className='flex justify-center pl-[100px] text-sm items-center gap-10 font-[450]'>
                     <h2>Product</h2>
                     <h2>About</h2>
                     <h2>Communtiy</h2>
@@ -20,7 +23,9 @@ const Navbar = () => {
                         Star
                         <Badge className='ml-3 px-1 rounded-md'>24.1k</Badge>
                     </Button>
-                    <Button className='rounded-xl max-h-[100px] py-5 px-5'>Get Started</Button>
+                    <Button onClick={(e: any) => {
+                        router.push('/auth/sign-in')
+                    }} className='rounded-xl max-h-[100px] py-5 px-5'>Get Started</Button>
                 </div>
             </div>
         </div>
