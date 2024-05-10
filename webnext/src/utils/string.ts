@@ -1,5 +1,5 @@
 export function youtubeExtractstring(url: string) {
-    const match = url.match(/(?<=\bv=)[\w-]+/);
+    const match = url.match(/(?<=\bv=)[\w-]{11}/);
     return match ? match[0] : '';
 }
 
@@ -37,3 +37,9 @@ export const extractEmailPrefix = (email: string): string => {
         return email;
     }
 };
+
+
+export function isYouTubeURL(url: string): boolean {
+    const youtubeRegex = /^https?:\/\/(www\.)?youtube\.com\/watch\?v=[\w-]+$/;
+    return youtubeRegex.test(url);
+}
