@@ -19,7 +19,7 @@ import { validateEmailInput } from '@/utils'
 import { useToast } from "@/components/ui/use-toast"
 import { Loader2 } from "lucide-react"
 import { useRouter } from 'next/navigation';
-import { SigninWithSupabase } from '@/auth'
+import { SigninWithSupabase , googleAuthWithSupabase } from '@/auth'
 
 export default function CardWithForm() {
     const { toast } = useToast()
@@ -60,7 +60,7 @@ export default function CardWithForm() {
             </CardHeader>
             <CardContent className="mt-3">
                 <div className="grid gap-4">
-                    <Button variant="outline" className="w-full bg-accent hover:bg-accent/80 py-5">
+                    <Button onClick={googleAuthWithSupabase} variant="outline" className="w-full bg-accent hover:bg-accent/80 py-5">
                         <FcGoogle className="mr-4 h-[18px] w-[19px]" />
                         Login with Google
                     </Button>

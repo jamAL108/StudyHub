@@ -16,7 +16,7 @@ import Link from 'next/link'
 import { FcGoogle } from "react-icons/fc";
 import { Separator } from "@/components/ui/separator"
 import { validateEmailInput } from '@/utils'
-import { SignupWithSupabase } from '@/auth'
+import { SignupWithSupabase, googleAuthWithSupabase } from '@/auth'
 import { useToast } from "@/components/ui/use-toast"
 import { Loader2 } from "lucide-react"
 import { useRouter } from 'next/navigation';
@@ -59,7 +59,7 @@ const SignUpComponent = () => {
             </CardHeader>
             <CardContent className="mt-3">
                 <div className="grid gap-4">
-                    <Button variant="outline" className="w-full bg-accent hover:bg-accent/80 py-5">
+                    <Button onClick={googleAuthWithSupabase} variant="outline" className="w-full bg-accent hover:bg-accent/80 py-5">
                         <FcGoogle className="mr-4 h-[18px] w-[19px]" />
                         Continue with Google
                     </Button>

@@ -8,7 +8,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 <Link href={'/'}>
                     <Image src='/images/vidchat.png' alt='qwerty' width={130} height={25} className='select-none mx-4' />
                 </Link>
-                <div className='w-full py-10 px-10 flex justify-center items-center'>
+                <div className='w-full flex-1 py-10 px-10 flex justify-center items-center'>
                     {children}
                 </div>
             </div>

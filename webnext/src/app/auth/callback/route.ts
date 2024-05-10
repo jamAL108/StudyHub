@@ -37,52 +37,30 @@ export async function GET(request: Request) {
     const { data, error }: any = await supabase.auth.exchangeCodeForSession(code)
     console.log(data)
     console.log("MEOW")
-    if (!error) {        
+    if (!error) {
       const booluuu = true
       const email = data.user.user_metadata.email
       const name = data.user.user_metadata.full_name
-      const avatar_url = data.user.user_metadata.avatar_url
       let { data: userFindData, error: userFindError }: any = await supabase
-        .from('users')
+        .from('vidchatUser')
         .select("*")
         .eq('email', email)
       ///avatar_url
       if (userFindData.length === 0) {
         const { data: userCreatedData, error: userCreatedError } = await supabase
-          .from('users')
+          .from('vidchatUser')
           .insert([
-            { email: email, name: name, avatar_url: avatar_url, google_calender_integrated: true },
+            { email: email, name: name },
           ])
           .select()
-
-        if (userCreatedError === null) {
-          const user = userCreatedData[0]
-          const redirectUrl = `${origin}/proxyLink?email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(user.name)}&google_calender_integrated=${booluuu}&avatar_url=${encodeURIComponent(user.avatar_url)}&id=${encodeURIComponent(user.id)}`;
-          return NextResponse.redirect(redirectUrl)
+        if (userCreatedData !== null) {
+          return NextResponse.redirect(`${origin}/home`)
         } else {
-          console.log("BAD LUCK")
-          return NextResponse.redirect(origin)
+          return NextResponse.redirect(`${origin}/auth/sign-in`)
         }
-      } else {
-        const user = userFindData[0]
-        if (user.google_calender_integrated === false) {
-          const { data, error } = await supabase
-            .from('users')
-            .update({ google_calender_integrated: true })
-            .eq('id', user.id)
-            .select()
-        }else if(user.avatar_url===null){
-          const { data, error } = await supabase
-          .from('users')
-          .update({ avatar_url: avatar_url })
-          .eq('id', user.id)
-          .select()
-        }
-        const redirectUrl = `${origin}/proxyLink?email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(user.name)}&google_calender_integrated=${booluuu}&avatar_url=${encodeURIComponent(user.avatar_url)}&id=${encodeURIComponent(user.id)}`;
-        return NextResponse.redirect(redirectUrl)
       }
     } else {
-      return NextResponse.redirect(`${origin}/auth/signin`)
+      return NextResponse.redirect(`${origin}/auth/sign-in`)
     }
   }
 }
