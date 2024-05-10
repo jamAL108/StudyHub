@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react'
-import Navbar from "@/components/navbar";
+import Navbar from '@/components/userNavbar'
 import {
     Card,
     CardContent,
@@ -24,12 +24,43 @@ import { YtVideoComponent } from '@/components/search'
 import { getVideosBasedOnQuery } from '@/api'
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
+import { useRouter } from 'next/navigation';
+import SessionNotFoundComp from '@/components/sessionNotFound'
+import checkUserAuthClient from '@/auth/getUserSession'
+
 const Page = () => {
     const { toast } = useToast()
+    const router = useRouter()
     const [ytQuery, setYtQuery] = useState<string>('')
     const [YTdata, setYTdata] = useState<any>(null)
     const [apiGoing, setApiGoing] = useState<boolean>(false)
     const [showScrollbar, setShowScrollbar] = useState(false);
+    const [loader, setLoader] = useState<boolean>(true)
+    const [sessionNotFound, setSessionNotFound] = useState<boolean>(false)
+    const [user, setUser] = useState<any>(null)
+
+    useEffect(() => {
+        getAllInvoicefunciton()
+    }, [])
+
+    const getAllInvoicefunciton = async () => {
+        const res: any = await checkUserAuthClient()
+        if (res.error !== null) {
+            router.push('/')
+            return
+        }
+        if (res.data.session === null) {
+            setLoader(false)
+            setSessionNotFound(true)
+            return
+        }
+        setUser(res.data.session.user)
+        setLoader(false)
+    }
+
+    if (sessionNotFound) {
+        return <SessionNotFoundComp />
+    }
 
 
     const handleYTSearch = async (e: any) => {
@@ -59,7 +90,7 @@ const Page = () => {
 
     return (
         <div className='flex-1 flex flex-col items-center overflow-hidden'>
-            <Navbar />
+            <Navbar loader={loader} user={user} />
             <div className="w-[min(90vw,1400px)] h-[calc(100vh_-_5.5rem)]  max-h-[calc(100vh_-_5.5rem)]  overflow-hidden flex">
                 <Card className='shadow-none w-full !border-none mt-2 bg-inherit'>
                     <CardHeader>

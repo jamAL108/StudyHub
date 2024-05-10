@@ -16,7 +16,7 @@ const sessionNotFound = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>User session Not Found !</AlertDialogTitle>
             <AlertDialogDescription>
-            <h2>Try Login Again , or i you dont have an account then create it </h2>
+            <h2>Try Login Again , or if you dont have an account then create it </h2>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className='flex base:flex-row  base:justify-end'>

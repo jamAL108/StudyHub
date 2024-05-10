@@ -74,7 +74,12 @@
 .op1{
   opacity: 1;
 }
-
+.userIcon{
+  background-image: url('/images/userIcon.png');
+  background-position: 100%;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
 
 .scrollarea {
   overflow-y: auto;

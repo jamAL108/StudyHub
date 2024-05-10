@@ -2,7 +2,9 @@ import React from 'react'
 
 const Skeleton = () => {
   return (
-    <div>Skeleton</div>
+    <div className='flex'>
+      <h1>Skeleton</h1>
+    </div>
   )
 }
 

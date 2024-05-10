@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react'
-import Navbar from '@/components/navbar'
+import Navbar from '@/components/LandingNavbar'
 import { useParams } from 'next/navigation'
 import { GetVideoIntoText } from '@/api'
 import { AlertForNoDataFound , ChatNavbar , DisplayChat , ChatBotComponent } from '@/components/chat-with-ai'
