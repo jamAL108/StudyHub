@@ -2,7 +2,6 @@ import random
 import string
 from moviepy.editor import VideoFileClip
 import os
-from openai import OpenAI
 import assemblyai as aai
 
 aai.settings.api_key = "9807cc31f3b446ff96b656fbc55145dd"
@@ -18,12 +17,11 @@ def getAudioFromVideo(file_path):
     video_clip = VideoFileClip(file_path)
     audio_clip = video_clip.audio
     audio_clip.write_audiofile(mp3_file)
+    video_clip.close()
     return mp3
-
 
 def AudioTotext(audio_file):
     transcriber = aai.Transcriber()
     transcript = transcriber.transcribe(os.path.join('user_audio',audio_file))
-    print(transcript.text)
     return transcript.text
 
