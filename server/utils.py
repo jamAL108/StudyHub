@@ -21,7 +21,9 @@ def getAudioFromVideo(file_path , audio_folder_path):
     return mp3
 
 def AudioTotext(audio_file , audio_folder_path):
+    print("MEOW")
     transcriber = aai.Transcriber()
     transcript = transcriber.transcribe(os.path.join(audio_folder_path,audio_file))
+    print("MEOW 2")
     return transcript.text
 

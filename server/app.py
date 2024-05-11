@@ -43,6 +43,8 @@ def search_youtube():
 
 @app.route('/startchatwithvideo', methods=['GET'])
 def youtube_proxy():
+    video_path=''
+    audio_path=''
     try:
         video_url = 'https://www.youtube.com/watch?v=' + request.args.get('videoid')
         print(video_url)
@@ -61,12 +63,9 @@ def youtube_proxy():
         stream.download(output_path=video_folder_path, filename=filename)
         mp3_file = getAudioFromVideo(os.path.join(video_folder_path,filename),audio_folder_path)
         extractedText = AudioTotext(mp3_file,audio_folder_path)
+        print("DONE EXTRACTED")
         video_path = os.path.join(video_folder_path,filename)
         audio_path = os.path.join(audio_folder_path,mp3_file)
-        if os.path.exists(video_path):
-            os.remove(video_path)
-        if os.path.exists(audio_path):
-            os.remove(audio_path)
         # time.sleep(15)
         # extractedText = """
         #     React, a JavaScript library for building user interfaces. Developed at 
@@ -84,6 +83,13 @@ def youtube_proxy():
     except Exception as e:
         print("Error:", e)
         return jsonify({'error': str(e)}), 500
+    finally:
+        if os.path.exists(video_path):
+            print("VID")
+            os.remove(video_path)
+        if os.path.exists(audio_path):
+            print("AUD")
+            os.remove(audio_path)
         
 
 
