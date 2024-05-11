@@ -21,6 +21,8 @@ const Page = () => {
     const [sessionNotFound, setSessionNotFound] = useState<boolean>(false)
     const [user, setUser] = useState<any>(null)
 
+    const [ErrorinBackend, setErrorInBackend] = useState<boolean>(false)
+
 
     useEffect(() => {
         getSession()
@@ -72,12 +74,12 @@ const Page = () => {
             console.log(extractedText)
             localStorage.setItem('studyHubData', JSON.stringify(storageObject))
         } else {
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
-            })
+            setErrorInBackend(true)
         }
+    }
+
+    if (ErrorinBackend) {
+        return <AlertForNoDataFound />
     }
 
     if (NoDataFound) {

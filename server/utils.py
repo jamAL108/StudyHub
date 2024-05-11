@@ -11,17 +11,17 @@ def generate_random_filename(length=10):
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for _ in range(length))
 
-def getAudioFromVideo(file_path):
+def getAudioFromVideo(file_path , audio_folder_path):
     mp3 = generate_random_filename() + ".mp3"
-    mp3_file = os.path.join('user_audio',mp3)
+    mp3_file = os.path.join(audio_folder_path,mp3)
     video_clip = VideoFileClip(file_path)
     audio_clip = video_clip.audio
     audio_clip.write_audiofile(mp3_file)
     video_clip.close()
     return mp3
 
-def AudioTotext(audio_file):
+def AudioTotext(audio_file , audio_folder_path):
     transcriber = aai.Transcriber()
-    transcript = transcriber.transcribe(os.path.join('user_audio',audio_file))
+    transcript = transcriber.transcribe(os.path.join(audio_folder_path,audio_file))
     return transcript.text
 

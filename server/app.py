@@ -9,7 +9,8 @@ from utils import generate_random_filename , getAudioFromVideo , AudioTotext
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
-save_directory = "user_videos" 
+# FolderName = os.getcwd()
+FolderName = '/tmp/'
 @app.route('/')
 def hello_world():
 	return 'Hello World'
@@ -48,15 +49,20 @@ def youtube_proxy():
         if not video_url:
             return jsonify({'error': 'Video URL is required'}), 400
         filename = generate_random_filename() + '.mp4'
-        if not os.path.exists(save_directory):
-            os.makedirs(save_directory)
+        video_folder_path = os.path.join(FolderName, 'user_videos')
+        audio_folder_path = os.path.join(FolderName,'user_audio')
+        if not os.path.exists(video_folder_path):
+            os.makedirs(video_folder_path)
+        if not os.path.exists(audio_folder_path):
+            os.makedirs(audio_folder_path)
+            
         yt = YouTube(video_url)
         stream = yt.streams.get_highest_resolution() 
-        stream.download(output_path=save_directory, filename=filename)
-        mp3_file = getAudioFromVideo(os.path.join(save_directory,filename))
-        extractedText = AudioTotext(mp3_file)
-        video_path = os.path.join('user_videos',filename)
-        audio_path = os.path.join('user_audio',mp3_file)
+        stream.download(output_path=video_folder_path, filename=filename)
+        mp3_file = getAudioFromVideo(os.path.join(video_folder_path,filename),audio_folder_path)
+        extractedText = AudioTotext(mp3_file,audio_folder_path)
+        video_path = os.path.join(video_folder_path,filename)
+        audio_path = os.path.join(audio_folder_path,mp3_file)
         if os.path.exists(video_path):
             os.remove(video_path)
         if os.path.exists(audio_path):
