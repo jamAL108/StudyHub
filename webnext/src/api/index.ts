@@ -1,6 +1,6 @@
 export const getVideosBasedOnQuery = async (query: string) => {
     try {
-        const response = await fetch(`http://127.0.0.1:5000/searchvideo?q=${query}`)
+        const response = await fetch(`https://vidchatbackend.vercel.app/searchvideo?q=${query}`)
         const data = await response.json()
         const dat = JSON.parse(data)
         console.log(dat)
@@ -13,7 +13,7 @@ export const getVideosBasedOnQuery = async (query: string) => {
 
 export const getVideosBasedOnURL = async (query: string) => {
     try {
-        const response = await fetch(`http://127.0.0.1:5000/searchdirecturl?q=${query}`)
+        const response = await fetch(`https://vidchatbackend.vercel.app/searchdirecturl?q=${query}`)
         const data = await response.json()
         const dat = JSON.parse(data)
         console.log(dat)
@@ -28,10 +28,10 @@ export const getVideosBasedOnURL = async (query: string) => {
 
 export const GetVideoIntoText = async (videoID: string) => {
     try {
-        const response = await fetch(`http://127.0.0.1:5000/startchatwithvideo?videoid=${videoID}`)
+        const response = await fetch(`https://vidchatbackend.vercel.app/startchatwithvideo?videoid=${videoID}`)
         const data = await response.json()
         console.log(data.text)
-        return { success: true , text:data.text }
+        return { success: true, text: data.text }
     } catch (error) {
         console.error('Error:', error)
         return { success: false, error: "Issue in server !" }

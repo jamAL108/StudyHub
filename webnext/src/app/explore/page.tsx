@@ -70,26 +70,25 @@ const Page = () => {
     const handleYTSearch = async (e: any) => {
         e.preventDefault();
         setApiGoing(true)
-        const temp: any = localStorage.getItem('dat')
-        const neee: any = JSON.parse(temp)
-        console.log(neee[0])
-        setYTdata(neee)
-        setApiGoing(false)
-        // const result: any = await getVideosBasedOnQuery(ytQuery)
-        // console.log(result)
-        // if (result.success === true) {
-        //     setYTdata(result.data)
-        //     localStorage.setItem('dat', JSON.stringify(result.data))
-        //     setApiGoing(false)
-        // } else {
-        //     toast({
-        //         variant: "destructive",
-        //         title: "Uh oh! Something went wrong.",
-        //         description: "There was a problem with your request.",
-        //         action: <ToastAction onClick={handleYTSearch} altText="Try again">Try again</ToastAction>,
-        //     })
-        //     setApiGoing(false)
-        // }
+        // const temp: any = localStorage.getItem('dat')
+        // const neee: any = JSON.parse(temp)
+        // console.log(neee[0])
+        // setYTdata(neee)
+        // setApiGoing(false)
+        const result: any = await getVideosBasedOnQuery(ytQuery)
+        console.log(result)
+        if (result.success === true) {
+            setYTdata(result.data)
+            setApiGoing(false)
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+                action: <ToastAction onClick={handleYTSearch} altText="Try again">Try again</ToastAction>,
+            })
+            setApiGoing(false)
+        }
     };
 
     const DirectURLFunction = async () => {
