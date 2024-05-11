@@ -26,7 +26,7 @@ const Alert: React.FC<any> = () => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogAction className='px-[20px]' onClick={(e: any) => {
-                        router.push('/search')
+                        router.push('/explore')
                     }}>Go to Home</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

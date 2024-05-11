@@ -7,7 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -15,9 +15,16 @@ const config = {
       padding: "2rem",
       screens: {
         "2xl": "1400px",
+        "base": "0px",
+        "bl": "1012px"
       },
     },
-    extend: { 
+    extend: {
+      screens: {
+        "2xl": "1400px",
+        "base": "0px",
+        "bl": "1012px"
+      },
       // #000212
       colors: {
         border: "hsl(var(--border))",

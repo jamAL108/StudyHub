@@ -67,7 +67,7 @@ def youtube_proxy():
         #     os.remove(video_path)
         # if os.path.exists(audio_path):
         #     os.remove(audio_path)
-        time.sleep(5)
+        time.sleep(15)
         extractedText = """
             React, a JavaScript library for building user interfaces. Developed at 
             Facebook and released in 2013, it's safe to say React has been the most influential UI library of recent memory. We use it to build components that represent logical, reusable parts of the UI. The beauty of React 

@@ -38,7 +38,7 @@ const Display: React.FC<any> = (props) => {
     }
     return (
         videoMeta ? (
-            <div className='w-[35%] py-8 px-4 flex flex-col gap-10' >
+            <div className='w-[38%] py-8 px-4 flex flex-col gap-10' >
                 <div className='flex gap-4'>
                     <Image src={videoMeta.thumbnails[0]} alt='wer' width={190} height={95} className='rounded-md' />
                     <div className='flex flex-col gap-1 text-muted-foreground justify-center'>

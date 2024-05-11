@@ -20,7 +20,7 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { YtVideoComponent } from '@/components/search'
+import { YtVideoComponent } from '@/components/explore'
 import { getVideosBasedOnQuery, getVideosBasedOnURL } from '@/api'
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"

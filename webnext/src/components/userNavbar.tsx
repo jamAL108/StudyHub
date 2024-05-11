@@ -47,8 +47,8 @@ const Navbar: React.FC<any> = (props) => {
                     ) : (
                         <div className='flex justify-center text-[0.77rem] items-center gap-10 font-[450]'>
                             <Link href={'/qwerty'}>Other Product</Link>
-                            <Link href={'/home'}>Workspace</Link>
-                            <Link href={'/search'}>Discover</Link>
+                            <Link href={'/home/dashboard'}>Workspace</Link>
+                            <Link href={'/explore'}>Discover</Link>
                         </div>
                     )
                     }

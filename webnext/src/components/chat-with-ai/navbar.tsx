@@ -33,7 +33,7 @@ const Navbar: React.FC<any> = (props) => {
     return (
         <div className='w-full py-4 px-12  flex justify-between items-center'>
             <div className='flex items-center justify-center gap-7'>
-                <Link href={'/search'} className='border-[2px] rounded-md px-2 py-2 bg-transparent hover:bg-accent'>
+                <Link href={'/explore'} className='border-[2px] rounded-md px-2 py-2 bg-transparent hover:bg-accent'>
                     <ArrowLeft className='h-5 w-6' color='white' />
                 </Link>
                 {videoMeta ?

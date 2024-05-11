@@ -88,8 +88,8 @@ const Page = () => {
         <div className='flex-1 flex flex-col items-center overflow-hidden'>
             <ChatNavbar videoMeta={videoMeta} loader={loader} user={user} />
             <div className="w-[min(90vw,1400px)] h-[calc(100vh_-_5rem)]  max-h-[calc(100vh_-_5rem)] overflow-hidden flex justify-between">
-                <DisplayChat videoMeta={videoMeta} extractedText={extractedText} suggestedQuestion={suggestedQuestion} setSuggestedQuestions={setSuggestedQuestions} />
-                <ChatBotComponent extractedText={extractedText} />
+                <DisplayChat videoMeta={videoMeta} extractedText={extractedText} suggestedQuestion={suggestedQuestion} setSuggestedQuestions={setSuggestedQuestions} user={user} />
+                <ChatBotComponent extractedText={extractedText} videoMeta={videoMeta} user={user} />
             </div>
         </div>
     )

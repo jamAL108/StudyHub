@@ -54,7 +54,7 @@ export async function GET(request: Request) {
           ])
           .select()
         if (userCreatedData !== null) {
-          return NextResponse.redirect(`${origin}/home`)
+          return NextResponse.redirect(`${origin}/home/dashboard`)
         } else {
           return NextResponse.redirect(`${origin}/auth/sign-in`)
         }
