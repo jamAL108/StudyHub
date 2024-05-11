@@ -29,11 +29,11 @@ const Display: React.FC<any> = (props) => {
         Given the following text, please generate a list of questions that a user might ask based on the content: ${extractedText}
         Please provide a set of 8 questions that cover various aspects of the text and are likely to be asked by someone seeking clarification or more information , and just provide the  questions without any additional texts and also after each question add a "|" symbol which will help me split the questions , and also this text is from youtube videos so give questions in this frame , What did the creator: ${videoMeta.channel} speak about xyz , how he/she covered xxx topics.
         `
-        // const model = geminiModel()
-        // const result = await model.generateContent(prompt);
-        // const response = await result.response;
-        // const text = response.text(); 
-        const splitedQuestions = tempPrompt.split('|')   // do text.split('|')  after testing
+        const model = geminiModel()
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text(); 
+        const splitedQuestions = text.split('|')   // do text.split('|')  after testing
         setSuggestedQuestions(splitedQuestions)
     }
     return (
