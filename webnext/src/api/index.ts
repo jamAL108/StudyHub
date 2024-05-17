@@ -1,5 +1,5 @@
-const URL = 'http://127.0.0.1:5000'
-// const URL = 'https://vidchatbackend.vercel.app'
+// const URL = 'http://127.0.0.1:5000'
+const URL = 'https://vidchatbackend.vercel.app'
 export const getVideosBasedOnQuery = async (query: string) => {
     try {
         const response = await fetch(`${URL}/searchvideo?q=${query}`)

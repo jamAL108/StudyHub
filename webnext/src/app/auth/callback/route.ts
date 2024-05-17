@@ -11,8 +11,8 @@ export async function GET(request: Request) {
   // if "next" is in param, use it as the redirect URL
   const next = searchParams.get('next') ?? '/'
 
-  const origin ='https://thevotum.com'
-  // const origin = 'https://vidchat-ai.vercel.app'
+  // const origin ='https://thevotum.com'
+  const origin = 'https://vidchat-ai.vercel.app'
   console.log(origin)
 
   if (code) {
