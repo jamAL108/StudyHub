@@ -10,7 +10,7 @@ from utils import generate_random_filename , getAudioFromVideo , AudioTotext
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 # FolderName = os.getcwd()
-FolderName = '/tmp/'
+FolderName = os.getcwd()
 @app.route('/')
 def hello_world():
 	return 'Hello World'
