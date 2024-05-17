@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/tooltip"
 import { FormatVideoViews, geminiModel, extractEmailInputPrefix } from '@/utils'
 import { Progress } from "@/components/ui/progress"
+import { UpdateTheVideoChatContent } from '@/api'
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 const ChatBot: React.FC<any> = (props) => {
-    const { extractedText, user, videoMeta } = props
+    const { extractedText, user, videoMeta, message, setMessage, setChats, chats, params } = props
     const [progress, setProgress] = useState<number>(10)
     let intervalId: any;
-    const [message, setMessage] = useState("");
-    const [chats, setChats] = useState<any>([]);
     const [isTyping, setIsTyping] = useState(false);
     const chatContainerRef = useRef<any>(null);
 
@@ -40,19 +40,18 @@ const ChatBot: React.FC<any> = (props) => {
         if (extractedText.length !== 0) {
             clearInterval(intervalId);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [extractedText]);
 
-    useEffect(() => {
-        if (user !== null && extractedText.length !== 0) {
-            console.log(extractEmailInputPrefix(user.email), ":::auth")
-            if (user.email)
-                setChats([{ content: `Hello ${extractEmailInputPrefix(user.email)} 👋,\n I am vidChat Bot, how may I help you ?`, role: "assistant" }])
-            else {
-                setChats([{ content: `Hello 👋,\n I am Soul-Friend how may I help you ?`, role: "assistant" }])
-            }
-        }
-    }, [user, extractedText])
+    // useEffect(() => {
+    //     if (user !== null && extractedText.length !== 0 && chats.length === 0) {
+    //         console.log(extractEmailInputPrefix(user.email), ":::auth")
+    //         if (user.email)
+    //             setChats([{ content: `Hello ${extractEmailInputPrefix(user.email)} 👋,\n I am vidChat Bot, how may I help you ?`, role: "assistant" }])
+    //         else {
+    //             setChats([{ content: `Hello 👋,\n I am Soul-Friend how may I help you ?`, role: "assistant" }])
+    //         }
+    //     }
+    // }, [user, extractedText , chats])
 
     async function runPrompt(valueOfPrompt: string, previousChats: string[]) {
         let prompt =
@@ -86,6 +85,7 @@ const ChatBot: React.FC<any> = (props) => {
             const response = await runPrompt(message, msgs.filter((x) => x.role === "user").map((chat: any) => chat.content));
             msgs.push({ role: "assistant", content: response });
             setChats(msgs);
+            UpdateTheVideoChatContent({ ...videoMeta, extractedText, chat: JSON.stringify(msgs), user_id: user.id, video_id: params.url })
         } catch (error) {
             console.error("Error generating response:", error);
         }
@@ -101,15 +101,15 @@ const ChatBot: React.FC<any> = (props) => {
     }, [chats]);
 
     return (
-        <div className='w-[50%] px-5 py-5 h-[100%] relative flex flex-col rounded-2xl bg-accent/60  items-center'>
+        <div className='w-[50%] h-[100%] relative flex flex-col rounded-2xl bg-accent/60 items-center'>
             {extractedText.length === 0 ? (
                 <div className='w-full inset-0 z-50 bg-black/80 border rounded-2xl h-full absolute flex justify-center items-center top-0 right-0'>
                     <Progress value={progress} max={100} className="w-[60%]" />
                 </div>
             ) : (
-                <div className='w-full h-[calc(100%_-_120px)] overflow-y-auto'>
+                <ScrollArea  className='w-full h-[calc(100%_-_140px)] overflow-y-auto px-5 py-5'>
                     <section ref={chatContainerRef} className='w-full h-full flex flex-col gap-4 px-3 py-3'>
-                        {chats && chats.length
+                        {chats && chats.length!==0
                             ? chats.map((chat: any, index: number) => (
                                 <p key={index} className={`${chat.role === "user" ? "justify-end" : "justify-start"} w-full flex items-center`}>
                                     <span className={`${chat.role === "user" ? "bg-primary" : "bg-background"} text-sm max-w-[60%] px-3 py-3 rounded-md`} style={{ textAlign: "left" }}>{chat.content}</span>
@@ -120,7 +120,7 @@ const ChatBot: React.FC<any> = (props) => {
                             <i>{isTyping ? "Typing" : ""}</i>
                         </p>}
                     </section>
-                </div>
+                </ScrollArea>
             )}
             <form
                 className="absolute bottom-4 w-[95%] overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring"

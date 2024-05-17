@@ -29,9 +29,10 @@ import SessionNotFoundComp from '@/components/sessionNotFound'
 import checkUserAuthClient from '@/auth/getUserSession'
 import { Skeleton } from "@/components/ui/skeleton"
 import { isStringYouTubeURL, YoutubeExtractVideoID } from '@/utils'
-
+import { v4 as uuidv4 } from 'uuid';
 
 const Page = () => {
+    const newUuid = uuidv4();
     const { toast } = useToast()
     const router = useRouter()
     const [ytQuery, setYtQuery] = useState<string>('')
@@ -119,7 +120,7 @@ const Page = () => {
                     localStorage.removeItem('studyHubData')
                     localStorage.setItem('VideoMeta', JSON.stringify(result.data[0]))
                     console.log(result.data)
-                    router.push(`/chat-with-ai/${YoutubeExtractVideoID(result.data[0].url_suffix)}`)
+                    router.push(`/chat-with-ai/${YoutubeExtractVideoID(result.data[0].url_suffix) + "-" + newUuid}`)
                 }
             } else {
                 toast({
@@ -218,7 +219,7 @@ const Page = () => {
                                             ) : (
                                                 <div className="flex flex-col  pb-[10px] mb-[50px]">
                                                     {YTdata.map((item: any, idx: number) => (
-                                                        <YtVideoComponent item={item} key={idx} />
+                                                        <YtVideoComponent item={item} key={idx} uuid={newUuid} />
                                                     ))}
                                                 </div>
                                             )

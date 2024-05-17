@@ -14,6 +14,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         getAllInvoicefunciton()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const getAllInvoicefunciton = async () => {

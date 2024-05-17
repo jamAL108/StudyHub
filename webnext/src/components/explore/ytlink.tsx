@@ -12,7 +12,7 @@ import {
 import { ShrinkTitle, FormatVideoViews, YoutubeExtractVideoID } from '@/utils'
 import Link from 'next/link'
 const YtLink: React.FC<any> = (props) => {
-    const { item } = props;
+    const { item , uuid } = props;
 
     return (
         <div className='w-full relative flex items-center gap-4 bg-transparent hover:bg-secondary/80 py-3 px-3 rounded-md cursor-pointer '>
@@ -31,7 +31,7 @@ const YtLink: React.FC<any> = (props) => {
                     <DropdownMenuTrigger><EllipsisVertical color='white' size={20} /></DropdownMenuTrigger>
                     <DropdownMenuContent className='absolute right-[-10px] px-3 py-3 w-[200px]'>
                         <DropdownMenuItem asChild>
-                            <Link href={`/chat-with-ai/${YoutubeExtractVideoID(item.url_suffix)}`} onClick={(e) => {
+                            <Link href={`/chat-with-ai/${YoutubeExtractVideoID(item.url_suffix)+ '-' + uuid}`} onClick={(e) => {
                                 localStorage.removeItem('studyHubData')
                                 localStorage.setItem('VideoMeta', JSON.stringify(item))
                             }} className='flex items-center py-2 mb-1 px-3 gap-3 text-white'><BotMessageSquare size={22} /> Chat with AI

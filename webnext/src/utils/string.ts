@@ -43,3 +43,15 @@ export function isYouTubeURL(url: string): boolean {
     const youtubeRegex = /^https?:\/\/(www\.)?youtube\.com\/watch\?v=[\w-]+$/;
     return youtubeRegex.test(url);
 }
+
+
+export function formatDate(isoTimestamp:string){
+    const date = new Date(isoTimestamp);
+
+    const formattedDate = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    }).format(date);
+    return formattedDate
+}

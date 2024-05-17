@@ -1,6 +1,6 @@
 'use client'
-import React, { useState } from 'react'
-import { ArrowLeft, UserPlus, Upload, ThumbsUp, ThumbsDown } from 'lucide-react';
+import React, { useEffect, useState } from 'react'
+import { ArrowLeft, UserPlus, Upload, ThumbsUp, ThumbsDown, X, AlertCircle, Copy, Check } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
@@ -24,11 +24,62 @@ import {
 import { Loader2 } from "lucide-react"
 import { SignOutWithSupabase } from '@/auth'
 import Link from 'next/link';
+import { publishShareData } from '@/api'
+import {
+    Alert,
+    AlertDescription,
+    AlertTitle,
+} from "@/components/ui/alert"
+import { Input } from "@/components/ui/input"
+
 
 const Navbar: React.FC<any> = (props) => {
-    const { videoMeta, loader, user } = props
+    const { videoMeta, loader, user, chats, extractedText } = props
     const [deleteAlert, setDeleteAlert] = useState<boolean>(false)
     const [deleteLoader, setDeleteloader] = useState<boolean>(false)
+
+    const [shareOpen, setShareOpen] = useState<boolean>(false)
+    const [load, setload] = useState<boolean>(false)
+    const [alertError, setAlertError] = useState<boolean>(false)
+    const [copied, setCopied] = useState<boolean>(false);
+
+
+    const handleCopy = () => {
+        const textToCopy = `https://vidchat-ai.vercel.app/share/${videoMeta ? videoMeta.video_id : ''}`;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1000);
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+    };
+
+    const addDataIntoShare = async () => {
+        setload(true)
+        const objectForProcess: any = {
+            title: videoMeta.title,
+            video_id: videoMeta.video_id,
+            chat: JSON.stringify(chats),
+            Date: videoMeta.created_at,
+        }
+        const result: any = await publishShareData(objectForProcess)
+        if (result.success === true) {
+            setload(false)
+        } else {
+            setload(false)
+            setAlertError(true)
+        }
+    }
+
+    useEffect(() => {
+        if (shareOpen === false) {
+            setload(false)
+            setAlertError(false)
+
+        }
+    }, [shareOpen])
+
+
 
     return (
         <div className='w-full py-4 px-12  flex justify-between items-center'>
@@ -45,15 +96,62 @@ const Navbar: React.FC<any> = (props) => {
             <div className='flex items-center justify-center gap-5'>
                 <div className='flex items-center justify-center'>
                     <div className='flex justify-center items-center py-2.5 bg-transparent hover:bg-accent px-3.5 border rounded-l-xl'>
-                        <ThumbsDown className='h-4 w-4' />
-                    </div>
-                    <div className='flex justify-center items-center py-2.5 bg-transparent hover:bg-accent px-3.5 border rounded-r-xl'>
                         <ThumbsUp className='h-4 w-4' />
                     </div>
+                    <div className='flex justify-center items-center py-2.5 bg-transparent hover:bg-accent px-3.5 border rounded-r-xl'>
+                        <ThumbsDown className='h-4 w-4' />
+                    </div>
                 </div>
-                <Button variant='outline' className='shadow-xl'>
-                    <UserPlus className="mr-2 h-4 w-4" /> Share
-                </Button>
+                <AlertDialog open={shareOpen} onOpenChange={setShareOpen}>
+                    <AlertDialogTrigger asChild>
+                        <Button onClick={(e) => {
+                            if (extractedText.length !== 0) {
+                                setShareOpen(true)
+                                addDataIntoShare()
+                            }
+                        }} variant='outline' className='shadow-xl'>
+                            <UserPlus className="mr-2 h-4 w-4" /> Share
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <div className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                            <X onClick={(e) => setShareOpen(false)} className="h-4 w-4 cursor-pointer" />
+                            <span className="sr-only">Close</span>
+                        </div>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className='text-2xl'>Share the chat !</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Copy the link and provide this to others , the conversation made till now will appear in this link.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        {load === true ? (
+                            <div className='w-full py-10 flex justify-center items-center'>
+                                <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                            </div>
+                        ) : alertError === true ? (
+                            <Alert variant="destructive" className='my-5 mx-3'>
+                                <AlertCircle className="h-4 w-4" />
+                                <AlertTitle>Error</AlertTitle>
+                                <AlertDescription>
+                                    There is an Error in the server !
+                                </AlertDescription>
+                            </Alert>
+                        ) : (
+                            <div className='w-full flex justify-center items-center py-5 '>
+                                <div className='flex gap-2 w-full items-center justify-center'>
+                                    <Input
+                                        defaultValue={`https://vidchat-ai.vercel.app/share/${videoMeta ? videoMeta.video_id : ''}`}
+                                        className="h-[50px] w-[70%]"
+                                        disabled={true}
+                                    />
+                                    <Button onClick={handleCopy} className='py-4 max-h-[60px] h-[50px] rounded-[24px] px-6'>
+                                        {copied ? <Check className='mr-2 h-4 w-4' /> : <Copy className='mr-2 h-4 w-4' />}
+                                        Copy Link</Button>
+                                </div>
+                            </div>
+                        )}
+                    </AlertDialogContent>
+                </AlertDialog>
                 <Button className='shadow-xl'>
                     <Upload className="mr-2 h-4 w-4" /> Export
                 </Button>

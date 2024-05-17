@@ -27,6 +27,7 @@ import {
 import { Loader2 } from "lucide-react"
 import { SignOutWithSupabase } from '@/auth'
 import Link from 'next/link';
+import { ShrinkTitle } from '@/utils'
 const Navbar: React.FC<any> = (props) => {
     const { loader, user } = props
     const router = useRouter()
@@ -66,7 +67,7 @@ const Navbar: React.FC<any> = (props) => {
                                     <div className='userIcon w-8 h-8 flex justify-center items-center'>
                                         J
                                     </div>
-                                    <p className='tracking-wider'>{user ? user.email : ''}</p>
+                                    <p className='tracking-wider'>{user ? ShrinkTitle(user.email,21) : ''}</p>
                                 </div>
                                 <AlertDialog open={deleteAlert} onOpenChange={setDeleteAlert}>
                                     <AlertDialogTrigger asChild>

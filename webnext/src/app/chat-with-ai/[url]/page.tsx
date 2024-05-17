@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '@/components/LandingNavbar'
 import { useParams } from 'next/navigation'
-import { GetVideoIntoText } from '@/api'
+import { GetVideoIntoText, getVideoDataFromSupabase } from '@/api'
 import { AlertForNoDataFound, ChatNavbar, DisplayChat, ChatBotComponent } from '@/components/chat-with-ai'
 import { useToast } from "@/components/ui/use-toast"
 import SessionNotFoundComp from '@/components/sessionNotFound'
@@ -16,29 +16,51 @@ const Page = () => {
     const [videoMeta, setVideoMeta] = useState<any>(null)
     const [NoDataFound, setNoDataFound] = useState<boolean>(false)
     const params = useParams<{ url: string; }>()
+
+
     const [suggestedQuestion, setSuggestedQuestions] = useState<any>(null)
+    const [message, setMessage] = useState<string>('')
+    const [chats, setChats] = useState<any>([{ content: `Hello there 👋,\n I am vidChat Bot, how may I help you ?`, role: "assistant" }]);
+
     const [loader, setLoader] = useState<boolean>(true)
     const [sessionNotFound, setSessionNotFound] = useState<boolean>(false)
     const [user, setUser] = useState<any>(null)
-
     const [ErrorinBackend, setErrorInBackend] = useState<boolean>(false)
 
 
     useEffect(() => {
         getSession()
-        const metaDataRetrieval: any = localStorage.getItem('VideoMeta')
-        const parsedMetaData: any = JSON.parse(metaDataRetrieval)
-        setVideoMeta(parsedMetaData)
-        const StoredData: any = localStorage.getItem("studyHubData");
-        const parsedData: any = JSON.parse(StoredData)
-        if (parsedData === null) {
-            getExtractedData()
-        } else if (parsedData.url !== params.url) {
-            setNoDataFound(true)
-        } else {
-            setExtractedText(parsedData.extractedText)
-        }
+        getDataFromSupabase()
     }, [])
+
+    const getDataFromSupabase = async () => {
+        const result: any = await getVideoDataFromSupabase(params.url);
+        if (result.success === true && result.data.length === 0) {
+            const metaDataRetrieval: any = localStorage.getItem('VideoMeta')
+            const parsedMetaData: any = JSON.parse(metaDataRetrieval)
+            setVideoMeta(parsedMetaData)
+            const StoredData: any = localStorage.getItem("studyHubData");
+            const parsedData: any = JSON.parse(StoredData)
+            if (parsedData === null) {
+                getExtractedData()
+            } else if (parsedData.url !== params.url) {
+                setNoDataFound(true)
+            } else {
+                setExtractedText(parsedData.extractedText)
+            }
+        } else if (result.success === true) {
+            setExtractedText(result.data[0].extractedText)
+            setChats(JSON.parse(result.data[0].chat))
+            const { extractedText: _, chat: __, ...remaining } = result.data[0]
+            setVideoMeta(remaining)
+        } else if (result.error !== null) {
+            toast({
+                variant: 'destructive',
+                title: result.error,
+                description: "Database error",
+            })
+        }
+    }
 
     const getSession = async () => {
         const res: any = await checkUserAuthClient()
@@ -64,7 +86,7 @@ const Page = () => {
             title: "This may Take 1-2 minutes",
             description: "Processing the Video , please wait",
         })
-        const result = await GetVideoIntoText(params.url)
+        const result = await GetVideoIntoText(params.url.substring(0, 11))
         if (result.success === true) {
             setExtractedText(result.text)
             const storageObject = {
@@ -88,10 +110,11 @@ const Page = () => {
 
     return (
         <div className='flex-1 flex flex-col items-center overflow-hidden'>
-            <ChatNavbar videoMeta={videoMeta} loader={loader} user={user} />
+            <ChatNavbar videoMeta={videoMeta} loader={loader} user={user} chats={chats} extractedText={extractedText} />
             <div className="w-[min(90vw,1400px)] h-[calc(100vh_-_5rem)]  max-h-[calc(100vh_-_5rem)] overflow-hidden flex justify-between">
-                <DisplayChat videoMeta={videoMeta} extractedText={extractedText} suggestedQuestion={suggestedQuestion} setSuggestedQuestions={setSuggestedQuestions} user={user} />
-                <ChatBotComponent extractedText={extractedText} videoMeta={videoMeta} user={user} />
+                <DisplayChat videoMeta={videoMeta} setMessage={setMessage} extractedText={extractedText} suggestedQuestion={suggestedQuestion} setSuggestedQuestions={setSuggestedQuestions} user={user} />
+
+                <ChatBotComponent extractedText={extractedText} videoMeta={videoMeta} user={user} setMessage={setMessage} message={message} setChats={setChats} chats={chats} params={params} />
             </div>
         </div>
     )

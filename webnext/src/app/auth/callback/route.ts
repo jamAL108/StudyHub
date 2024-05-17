@@ -37,6 +37,7 @@ export async function GET(request: Request) {
     const { data, error }: any = await supabase.auth.exchangeCodeForSession(code)
     console.log(data)
     console.log("MEOW")
+    // data.session.user.id
     if (!error) {
       const booluuu = true
       const email = data.user.user_metadata.email
@@ -44,13 +45,13 @@ export async function GET(request: Request) {
       let { data: userFindData, error: userFindError }: any = await supabase
         .from('vidchatUser')
         .select("*")
-        .eq('email', email)
+        .eq('id', data.session.user.id)
       ///avatar_url
       if (userFindData.length === 0) {
         const { data: userCreatedData, error: userCreatedError } = await supabase
           .from('vidchatUser')
           .insert([
-            { email: email, name: name },
+            { id: data.session.user.id, email: email, name: name },
           ])
           .select()
         if (userCreatedData !== null) {

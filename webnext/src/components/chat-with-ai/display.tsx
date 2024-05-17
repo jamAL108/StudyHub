@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { FormatVideoViews, geminiModel } from '@/utils'
 import { Skeleton } from "@/components/ui/skeleton"
 const Display: React.FC<any> = (props) => {
-    const { videoMeta, extractedText, suggestedQuestion, setSuggestedQuestions } = props
+    const { videoMeta, extractedText, suggestedQuestion, setSuggestedQuestions, setMessage } = props
     const tempPrompt = `
     1. What did Fireship speak about in this video? | 
     2. How did Fireship describe the influence of React as a UI library? | 
@@ -32,7 +32,7 @@ const Display: React.FC<any> = (props) => {
         const model = geminiModel()
         const result = await model.generateContent(prompt);
         const response = await result.response;
-        const text = response.text(); 
+        const text = response.text();
         const splitedQuestions = text.split('|')   // do text.split('|')  after testing
         setSuggestedQuestions(splitedQuestions)
     }
@@ -56,7 +56,10 @@ const Display: React.FC<any> = (props) => {
                             ))
                         }
                         {suggestedQuestion !== null && suggestedQuestion.length !== 0 && suggestedQuestion.map((question: string, idx: number) => (
-                            <p key={idx} className='text-sm hover:text-white cursor-pointer transition duration-500 ease-in hover:scale-[1.02] text-muted-foreground'>{question}</p>
+                            <p onClick={(e) => {
+                                e.preventDefault()
+                                setMessage(question.substring(3))
+                            }} key={idx} className='text-sm hover:text-white cursor-pointer transition duration-500 ease-in hover:scale-[1.02] text-muted-foreground'>{question}</p>
                         ))}
                     </div>
                 </div>

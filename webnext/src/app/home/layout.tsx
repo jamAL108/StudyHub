@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Loader2 } from "lucide-react"
 import { SignOutWithSupabase } from '@/auth'
-
+import { ShrinkTitle } from '@/utils'
 
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -49,6 +49,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         getAllInvoicefunciton()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const getAllInvoicefunciton = async () => {
@@ -129,17 +130,17 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                                             <FaRegUser className='h-4 w-4' />
                                         </div>
                                         <div className='flex flex-col text-sm justify-center'>
-                                            <p className='text-xs text-muted-foreground'>Free Account</p>
-                                            <p className='text-[0.75rem] tracking-wider'>{user ? user.email : ''}</p>
+                                            <p className='text-xs text-muted-foreground'>Your Account</p>
+                                            <p className='text-[0.75rem] tracking-wider'>{user ? ShrinkTitle(user.email,23) : ''}</p>
                                         </div>
                                     </div>
                                 </PopoverTrigger>
-                                <PopoverContent className='w-[100%]  mr-[40px] mb-[10px] px-0 pb-0  border-[2px] flex flex-col  rounded-xl '>
+                                <PopoverContent className='w-[100%] mr-[40px] mb-[10px] px-0 pb-0  border-[2px] flex flex-col  rounded-xl '>
                                     <div className='w-full px-4 flex gap-3 pb-4 border-b-[2px] items-center'>
                                         <div className='userIcon w-8 h-8 flex justify-center items-center'>
                                             {user.email[0]}
                                         </div>
-                                        <p className='tracking-wider'>{user ? user.email : ''}</p>
+                                        <p className='tracking-wider'>{user ? ShrinkTitle(user.email,18) : ''}</p>
                                     </div>
                                     <AlertDialog open={deleteAlert} onOpenChange={setDeleteAlert}>
                                         <AlertDialogTrigger asChild>
