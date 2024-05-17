@@ -44,7 +44,7 @@ const SharedView = () => {
                             {chats && chats.length !== 0
                                 ? chats.map((chat: any, index: number) => (
                                     <p key={index} className={`${chat.role === "user" ? "justify-end" : "justify-start"} w-full flex items-center`}>
-                                        <span className={`${chat.role === "user" ? "bg-primary" : "bg-accent"} text-sm max-w-[60%] px-3 py-3 rounded-md`} style={{ textAlign: "left" }}>{chat.content}</span>
+                                        <span className={`${chat.role === "user" ? "bg-primary" : "bg-accent"} text-sm max-w-[75%] px-3 py-3 rounded-md`} style={{ textAlign: "left" }}>{chat.content}</span>
                                     </p>
                                 ))
                                 : ""}
