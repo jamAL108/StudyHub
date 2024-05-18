@@ -102,6 +102,7 @@ export const publishShareData = async (chatData: any) => {
         .from('chat_share')
         .select("*")
         .eq('video_id', chatData.video_id)
+        console.log(error)
     if (error !== null) return { success: false }
     if (chat_share.length === 0) {
         const { data, error: IError }: any = await supabase
@@ -110,6 +111,7 @@ export const publishShareData = async (chatData: any) => {
                 { ...chatData },
             ])
             .select()
+            console.log(Error)
         if (IError !== null) return { success: false }
         return { success: true }
     } else {
@@ -118,6 +120,7 @@ export const publishShareData = async (chatData: any) => {
             .update({ chat: chatData.chat })
             .eq('video_id', chatData.video_id)
             .select()
+            console.log(AError)
         if (AError !== null) return { success: false }
         return { success: true }
     }

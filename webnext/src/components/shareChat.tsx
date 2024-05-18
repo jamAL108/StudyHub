@@ -50,7 +50,7 @@ const ShareChat: React.FC<any> = (props) => {
         const objectForProcess: any = {
             title: videoMeta.title,
             video_id: videoMeta.video_id,
-            chat: JSON.stringify(chats),
+            chat: chats,
             Date: videoMeta.created_at,
         }
         const result: any = await publishShareData(objectForProcess)
@@ -77,10 +77,8 @@ const ShareChat: React.FC<any> = (props) => {
                 ) : (
                     <div className='flex items-center gap-3 text-white' onClick={(e) => {
                         e.preventDefault()
-                        if (extractedText.length !== 0) {
-                            setShareOpen(true)
-                            addDataIntoShare()
-                        }
+                        setShareOpen(true)
+                        addDataIntoShare()
                     }}>
                         <Forward size={22} /> Share chat
                     </div>

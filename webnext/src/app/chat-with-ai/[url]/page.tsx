@@ -50,7 +50,7 @@ const Page = () => {
             }
         } else if (result.success === true) {
             setExtractedText(result.data[0].extractedText)
-            setChats(JSON.parse(result.data[0].chat))
+            setChats(result.data[0].chat)
             const { extractedText: _, chat: __, ...remaining } = result.data[0]
             setVideoMeta(remaining)
         } else if (result.error !== null) {

@@ -85,7 +85,7 @@ const ChatBot: React.FC<any> = (props) => {
             const response = await runPrompt(message, msgs.filter((x) => x.role === "user").map((chat: any) => chat.content));
             msgs.push({ role: "assistant", content: response });
             setChats(msgs);
-            UpdateTheVideoChatContent({ ...videoMeta, extractedText, chat: JSON.stringify(msgs), user_id: user.id, video_id: params.url })
+            UpdateTheVideoChatContent({ ...videoMeta, extractedText, chat: msgs, user_id: user.id, video_id: params.url })
         } catch (error) {
             console.error("Error generating response:", error);
         }
@@ -116,8 +116,8 @@ const ChatBot: React.FC<any> = (props) => {
                                 </p>
                             ))
                             : ""}
-                        {isTyping && <p>
-                            <i>{isTyping ? "Typing" : ""}</i>
+                        {isTyping && <p className='w-full flex items-center'>
+                            <i className='text-sm max-w-[60%] px-3 py-3 text-lefts rounded-md bg-background'>{isTyping ? "Typing" : ""}</i>
                         </p>}
                     </section>
                 </ScrollArea>

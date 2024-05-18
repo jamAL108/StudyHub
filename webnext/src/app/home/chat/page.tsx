@@ -132,7 +132,7 @@ const Dashboard = () => {
                     <Card x-chunk="dashboard-06-chunk-0">
                         <CardHeader>
                             <CardDescription>
-                                A detaisl of all your recent chats.
+                                A details of all your recent chats.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>

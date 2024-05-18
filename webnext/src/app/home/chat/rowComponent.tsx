@@ -27,7 +27,7 @@ const RowComponent: React.FC<any> = (props) => {
                 <Image src={videoMeta.thumbnails[0]} alt='asdsvf' width={160} className='rounded-md' height={80} />
             </TableCell>
             <TableCell className="font-medium">
-                Laser Lemonade Machine
+                
             </TableCell>
             <TableCell>
                 <Badge variant="outline">Draft</Badge>
