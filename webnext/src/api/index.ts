@@ -107,7 +107,7 @@ export const publishShareData = async (chatData: any) => {
         const { data, error: IError }: any = await supabase
             .from('chat_share')
             .insert([
-                { ...chatData},
+                { ...chatData },
             ])
             .select()
         if (IError !== null) return { success: false }
@@ -115,10 +115,24 @@ export const publishShareData = async (chatData: any) => {
     } else {
         const { data, error: AError }: any = await supabase
             .from('chat_share')
-            .update({ chat: JSON.stringify(chatData.chat) })
+            .update({ chat: chatData.chat })
             .eq('video_id', chatData.video_id)
             .select()
         if (AError !== null) return { success: false }
         return { success: true }
     }
+}
+
+
+
+export const getAllchats = async (user_id: string) => {
+    const supabase = clientConnectionWithSupabase()
+    let { data: vidChat, error } = await supabase
+        .from('vidChat-Chats')
+        .select("*")
+        .eq('user_id', user_id)
+    console.log(error)
+    console.log(vidChat)
+    if (error !== null) return { success: false }
+    return { success: true, data: vidChat }
 }

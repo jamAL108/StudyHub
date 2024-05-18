@@ -55,12 +55,12 @@ export async function GET(request: Request) {
           ])
           .select()
         if (userCreatedData !== null) {
-          return NextResponse.redirect(`${origin}/home/dashboard`)
+          return NextResponse.redirect(`${origin}/home/chat`)
         } else {
           return NextResponse.redirect(`${origin}/auth/sign-in`)
         }
       }
-      return NextResponse.redirect(`${origin}/home/dashboard`)
+      return NextResponse.redirect(`${origin}/home/chat`)
     } else {
       return NextResponse.redirect(`${origin}/auth/sign-in`)
     }

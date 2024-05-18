@@ -58,7 +58,7 @@ const Display: React.FC<any> = (props) => {
                         {suggestedQuestion !== null && suggestedQuestion.length !== 0 && suggestedQuestion.map((question: string, idx: number) => (
                             <p onClick={(e) => {
                                 e.preventDefault()
-                                setMessage(question.substring(3))
+                                setMessage(question)
                             }} key={idx} className='text-sm hover:text-white cursor-pointer transition duration-500 ease-in hover:scale-[1.02] text-muted-foreground'>{question}</p>
                         ))}
                     </div>

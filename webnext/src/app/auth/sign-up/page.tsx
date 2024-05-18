@@ -33,7 +33,7 @@ const SignUpComponent = () => {
             const stringifiedObject: any = await SignupWithSupabase({ email, password })
             const result: any = JSON.parse(stringifiedObject)
             if (result.success === true) {
-                router.push('/home/dashboard')
+                router.push('/home/chat')
             } else {
                 toast({
                     variant: "destructive",

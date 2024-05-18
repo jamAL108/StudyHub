@@ -5,6 +5,15 @@ import { Separator } from "@/components/ui/separator"
 import { getSharedChatData } from '@/api'
 import { Skeleton } from "@/components/ui/skeleton"
 import { formatDateFunction } from '@/utils'
+import {
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import Link from 'next/link'
 const SharedView = () => {
     const params = useParams<{ url: string; }>()
     const [loader, setLoader] = useState<boolean>(true)
@@ -19,20 +28,38 @@ const SharedView = () => {
             if (result.success === true && result.data.length !== 0) {
                 setLoader(false)
                 setData(result.data[0])
-                const temp = JSON.parse(JSON.parse(result.data[0].chat))
+                const temp = JSON.parse(result.data[0].chat)
                 console.log(temp[0])
                 setChats(temp)
             } else {
-                // setLoader(false)
+                setLoader(false)
                 setError(true)
             }
         }
     }, [params])
 
+    if (error) {
+        return (
+            <AlertDialog open={true}>
+                <AlertDialogContent className='w-[min(400px,90vw)] !rounded-[13px]'>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Invalid Link!</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            <h2>Check for the link and try again</h2>
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className='flex base:flex-row  base:justify-end'>
+                        <Link href={'/auth/sign-in'} className='px-[18px] py-[7px] rounded-[6px] text-white bg-primary hover:bg-primary/90'>Go to Home</Link>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        )
+    }
+
 
     return (
         <div className='flex-1 h-[100vh] flex justify-center'>
-            <div className='w-[min(90vw,750px)] h-full overflow-y-auto py-11 flex flex-col'>
+            <div className='w-[min(90vw,750px)] h-full overflow-y-auto py-11 flex flex-col shareChatContent'>
                 {loader === false ? (
                     <>
                         <div className='w-full flex flex-col gap-4'>

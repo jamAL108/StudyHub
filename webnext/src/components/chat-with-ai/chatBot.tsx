@@ -107,7 +107,7 @@ const ChatBot: React.FC<any> = (props) => {
                     <Progress value={progress} max={100} className="w-[60%]" />
                 </div>
             ) : (
-                <ScrollArea  className='w-full h-[calc(100%_-_140px)] overflow-y-auto px-5 py-5'>
+                <ScrollArea  className='w-full h-[calc(100%_-_140px)] overflow-y-auto px-5 py-4'>
                     <section ref={chatContainerRef} className='w-full h-full flex flex-col gap-4 px-3 py-3'>
                         {chats && chats.length!==0
                             ? chats.map((chat: any, index: number) => (

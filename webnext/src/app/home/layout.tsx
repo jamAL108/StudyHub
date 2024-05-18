@@ -73,29 +73,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                         <Link href="/" className="flex items-center gap-2 font-semibold">
                             <Image src='/images/vidchat.png' alt='qwerty' width={150} height={25} className='select-none ml-[-10px]' />
                         </Link>
-                        <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-                            <Bell className="h-4 w-4" />
-                            <span className="sr-only">Toggle notifications</span>
-                        </Button>
                     </div>
                     <div className="flex-1">
                         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                            <Link
-                                href="/home/dashboard"
-                                className={`flex items-center gap-3 ${pathname ? pathname.includes('dashboard') === true ? 'text-primary bg-muted' : 'text-muted-foreground bg-transparent' : 'text-muted-foreground bg-transparent'} rounded-lg px-3 py-2  transition-all hover:text-primary`}
-                            >
-                                <Home className="h-4 w-4" />
-                                Dashboard
-                            </Link>
                             <Link
                                 href="/home/chat"
                                 className={`flex items-center gap-3 ${pathname ? pathname.includes('chat') === true ? 'text-primary bg-muted' : 'text-muted-foreground bg-transparent' : 'text-muted-foreground bg-transparent'} rounded-lg px-3 py-2  transition-all hover:text-primary`}
                             >
                                 <MessagesSquare className="h-4 w-4" />
                                 Chat History
-                                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                                    6
-                                </Badge>
                             </Link>
                             <Link
                                 href="/home/documents"
@@ -187,7 +173,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col overflow-y-auto h-[100vh]">
                 <Navbar />
                 {children}
             </div>

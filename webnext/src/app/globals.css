@@ -112,3 +112,8 @@
 .scrollarea::-webkit-scrollbar-thumb:hover {
   background: #1f2937;
 }
+
+
+.shareChatContent::-webkit-scrollbar {
+  display: none;
+}
